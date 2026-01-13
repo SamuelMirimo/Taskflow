@@ -3,6 +3,11 @@ const express = require('express');
 require('dotenv').config();
 const {pool, testConnection} = require('./config/db');
 
+//importation des routes 
+const taskRoutes = require('./routes/taskRoutes');
+const { use } = require('react');
+
+
 //initialisation de l'application 
 const app = express();
 const PORT = process.env.PORT || 5000
@@ -10,13 +15,20 @@ const PORT = process.env.PORT || 5000
 //middleware qui parse les requettes en JSON
 app.use(express.json());
 
-//route de test
+//middleware de logging
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next() //passe au suivant middleware
+});
+
+//routes
+app.use('/api/tasks', taskRoutes);
+
+//route de racine
 app.get('/', (req, res) => {
     res.json({
-        message : 'api de test fonctionne correctement',
-        status : 'Success',
-        timestamp : new Date().toISOString(),
-        database: 'MySQL (WAMP)',
+        message : 'API Taskflow - gestionnaire des taches',
+        version : '0.0.1',
         endpoints: {
         tasks: 'GET /api/tasks',
         health: 'GET /api/health'
@@ -54,6 +66,24 @@ app.get('/api/health', async (req, res) => {
     }
 });
 
+//route 404 pour les urls non trouve
+app.use('*', (req, res) => {
+    res.status(404).json({
+        success : false,
+        message : `route ${req.originalUrl} non trouvée`
+    });
+});
+
+//middleware de gestion d'erreurs
+app.use((error, req, res, next) => {
+    console.error('erreur non gerée', error);
+    res.status(500).json({
+        success : false,
+        message : 'Erreur interne du serveur',
+        error : process.env.NODE_ENV === 'developpement' ? error.message : undefined
+    });
+});
+
 //demarre le serveur seulement la db est connecte
 async function startServer() {
     console.log('test de connexion...');
@@ -61,18 +91,15 @@ async function startServer() {
     const dbConnected = await testConnection();
 
     if(!dbConnected) {
-          console.log(' Impossible de démarrer: MySQL non connecté');
+        console.log(' Impossible de démarrer: MySQL non connecté');
 
-          return;
+        return;
     }
 
     //port d'ecoute du serveur 
     app.listen(PORT, () => {
         console.log(`Serveur démarré sur http://localhost:${PORT}`);
-        console.log(` Endpoints disponibles:`);
-        console.log(`   GET http://localhost:${PORT}/ - Page d'accueil`);
-        console.log(`   GET http://localhost:${PORT}/api/health - Vérification santé`);
-        console.log(` Accède à phpMyAdmin: http://localhost/phpmyadmin`);
+        console.log(`API Taskflow disponible sur http://localhost:${PORT}/api/tasks - Page d'accueil`);
     });
 }
 
