@@ -65,23 +65,27 @@ app.get('/api/health', async (req, res) => {
     }
 });
 
-//route 404 pour les urls non trouve
-app.use('*', (req, res) => {
-    res.status(404).json({
-        success : false,
-        message : `route ${req.originalUrl} non trouvée`
-    });
-});
-
 //middleware de gestion d'erreurs
 app.use((error, req, res, next) => {
     console.error('erreur non gerée', error);
     res.status(500).json({
         success : false,
         message : 'Erreur interne du serveur',
-        error : process.env.NODE_ENV === 'developpement' ? error.message : undefined
+        error : process.env.NODE_ENV === 'developement' ? error.message : undefined
     });
 });
+
+//route 404 pour les urls non trouve
+app.use((req, res, next) => {
+    // Vérifie si la réponse a déjà été envoyée
+    if (!res.headersSent) {
+        res.status(404).json({
+            success: false,
+            message: `Route ${req.originalUrl} non trouvée`
+        });
+    }
+});
+
 
 //demarre le serveur seulement la db est connecte
 async function startServer() {
