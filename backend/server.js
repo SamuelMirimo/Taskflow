@@ -5,7 +5,6 @@ const {pool, testConnection} = require('./config/db');
 
 //importation des routes 
 const taskRoutes = require('./routes/taskRoutes');
-const { use } = require('react');
 
 
 //initialisation de l'application 
