@@ -35,7 +35,7 @@ const create = async (taskData) => {
     const { title, description, category } = taskData;
 
     const [result] = await pool.query(
-        `INSERT INTO tasks (title, decription, category, completed)
+        `INSERT INTO tasks (title, description, category, completed)
         VALUES (?, ?, ?, ?)`,
         [
             title.trim(),
