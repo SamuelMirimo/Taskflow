@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Gestionnaire de tâches</title>
+    <link rel="stylesheet" href="styles/style.css">
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TaskFlow</h1>
+            <p class="subtitle">Votre gestionnaire de tâches simple et efficace</p>
+        </header>
+
+        <main>
+            <div class="actions">
+                <button id="new-task-btn" class="btn btn-primary">
+                    + Nouvelle tâche
+                </button>
+            </div>
+
+            <section class="tasks-section">
+                <h2>Vos tâches</h2>
+                <div id="tasks-container">
+                    <!-- Les tâches seront ajoutées ici par JavaScript -->
+                    <p class="loading">Chargement des tâches...</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>API TaskFlow - Développé avec Express.js & MySQL</p>
+        </footer>
+    </div>
+
+    <!-- Modal pour créer une tâche (caché par défaut) -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nouvelle tâche</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="task-form">
+                    <div class="form-group">
+                        <label for="task-title">Titre *</label>
+                        <input 
+                            type="text" 
+                            id="task-title" 
+                            placeholder="Que devez-vous faire ?"
+                            required
+                        >
+                        <small class="error-message" id="title-error"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="task-category">Catégorie</label>
+                        <input 
+                            type="text" 
+                            id="task-category" 
+                            placeholder="Ex: Travail, Personnel, Courses..."
+                        >
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary close-btn">
+                            Annuler
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Créer la tâche
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
