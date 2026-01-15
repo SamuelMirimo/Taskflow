@@ -206,3 +206,151 @@ footer {
         width: 100%;
     }
 }
+
+/* Styles pour les tâches */
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #7f8c8d;
+}
+
+.empty-state p:first-child {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.task-item {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.task-item:last-child {
+    border-bottom: none;
+}
+
+.task-item:hover {
+    background-color: #f9f9f9;
+}
+
+.task-content {
+    flex: 1;
+}
+
+.task-title {
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+.task-description {
+    color: #7f8c8d;
+    margin-bottom: 10px;
+    font-size: 0.95em;
+}
+
+.task-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.85em;
+    color: #95a5a6;
+}
+
+.task-category {
+    background-color: #e8f4fc;
+    padding: 2px 8px;
+    border-radius: 12px;
+    color: #3498db;
+}
+
+.task-status {
+    font-weight: 600;
+}
+
+.task-status.completed {
+    color: #27ae60;
+}
+
+.task-status.pending {
+    color: #e67e22;
+}
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-toggle, .btn-delete {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-toggle {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.btn-toggle:hover {
+    background-color: #27ae60;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+/* Animations */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.success-message {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+/* Amélioration des erreurs */
+.error-message {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+    display: none;
+}
+
+input.error {
+    border-color: #e74c3c !important;
+}
+/* Styles pour les boutons désactivés */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+button:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
