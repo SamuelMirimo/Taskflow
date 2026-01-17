@@ -1,5 +1,4 @@
 //configuration 
-// Configuration
 const API_URL = 'http://localhost:3000/api/tasks';
 
 // Éléments DOM
@@ -15,7 +14,7 @@ const titleError = document.getElementById('title-error');
 // État de l'application
 let tasks = [];
 
-// Fonctions principales
+// chargement au demarrge 
 function initApp() {
     console.log('Application TaskFlow initialisée');
     
@@ -26,8 +25,9 @@ function initApp() {
     setupEventListeners();
 }
 
+//charger les taches depuis le backend
 async function loadTasks() {
-    console.log('📥 Chargement des tâches depuis l\'API...');
+    console.log('Chargement des tâches depuis l\'API...');
     displayMessage('Chargement en cours...');
     
     try {
@@ -45,7 +45,7 @@ async function loadTasks() {
         // 4. Vérifier la structure de la réponse
         if (result.success && Array.isArray(result.data)) {
             tasks = result.data;
-            console.log(`✅ ${tasks.length} tâche(s) chargée(s)`);
+            console.log(`${tasks.length} tâche(s) chargée(s)`);
             
             // 5. Afficher les tâches
             displayTasks();
@@ -54,7 +54,7 @@ async function loadTasks() {
         }
         
     } catch (error) {
-        console.error('❌ Erreur lors du chargement:', error);
+        console.error('Erreur lors du chargement:', error);
         displayMessage(`Erreur: ${error.message}`);
     }
 };
@@ -81,16 +81,16 @@ function displayTasks() {
                     <span class="task-category">${escapeHTML(task.category)}</span>
                     <span class="task-date">Créée le ${formatDate(task.created_at)}</span>
                     <span class="task-status ${task.completed ? 'completed' : 'pending'}">
-                        ${task.completed ? '✅ Terminée' : '⏳ En attente'}
+                        ${task.completed ? 'Terminée' : 'En attente'}
                     </span>
                 </div>
             </div>
             <div class="task-actions">
                 <button class="btn-toggle" onclick="toggleTask(${task.id})" data-id="${task.id}">
-                    ${task.completed ? '✏️ Réouvrir' : '✅ Terminer'}
+                    ${task.completed ? 'recommencer' : 'Terminer'}
                 </button>
                 <button class="btn-delete" onclick="deleteTask(${task.id})" data-id="${task.id}">
-                    🗑️ Supprimer
+                    Supprimer
                 </button>
             </div>
         </div>
@@ -104,6 +104,7 @@ function displayMessage(message) {
     tasksContainer.innerHTML = `<p class="loading">${message}</p>`;
 }
 
+//fonction pour notre formulaire (modal)
 function setupEventListeners() {
     // Ouvrir modal
     newTaskBtn.addEventListener('click', () => {
@@ -179,7 +180,7 @@ function showSuccessMessage(message) {
 
 
 async function createTask() {
-    console.log('➕ Tentative de création d\'une tâche...');
+    console.log('Tentative de création d\'une tâche...');
     
     // Récupérer les valeurs du formulaire
     const title = taskTitleInput.value.trim();
@@ -203,7 +204,7 @@ async function createTask() {
             category: category || 'Non catégorisée'  // Valeur par défaut
         };
         
-        console.log('📤 Envoi à l\'API:', taskData);
+        console.log('Envoi à l\'API:', taskData);
         
         // Envoyer la requête POST
         const response = await fetch(API_URL, {
@@ -223,7 +224,7 @@ async function createTask() {
         // Parser la réponse
         const result = await response.json();
         
-        console.log('✅ Tâche créée:', result.data);
+        console.log('Tâche créée:', result.data);
         
         // Fermer la modal
         taskModal.style.display = 'none';
@@ -238,7 +239,7 @@ async function createTask() {
         showSuccessMessage('Tâche créée avec succès !');
         
     } catch (error) {
-        console.error('❌ Erreur lors de la création:', error);
+        console.error('Erreur lors de la création:', error);
         showError(`Erreur: ${error.message}`);
         
     } finally {
@@ -249,7 +250,7 @@ async function createTask() {
     }
 }
 async function toggleTask(taskId) {
-    console.log(`🔄 Changement de statut pour la tâche #${taskId}`);
+    console.log(`Changement de statut pour la tâche #${taskId}`);
     
     // Trouver la tâche dans notre tableau
     const task = tasks.find(t => t.id === taskId);
@@ -285,7 +286,7 @@ async function toggleTask(taskId) {
         }
         
         const result = await response.json();
-        console.log('✅ Statut mis à jour:', result.data);
+        console.log('Statut mis à jour:', result.data);
         
         // Mettre à jour localement
         task.completed = newStatus;
@@ -298,7 +299,7 @@ async function toggleTask(taskId) {
         showSuccessMessage(`Tâche ${newStatus ? 'terminée' : 'réouverte'} !`);
         
     } catch (error) {
-        console.error('❌ Erreur lors du changement de statut:', error);
+        console.error('Erreur lors du changement de statut:', error);
         showError(`Erreur: ${error.message}`);
         
     } finally {
@@ -306,7 +307,7 @@ async function toggleTask(taskId) {
         const btn = document.querySelector(`[onclick="toggleTask(${taskId})"]`);
         if (btn) {
             btn.disabled = false;
-            btn.textContent = newStatus ? '✏️ Réouvrir' : '✅ Terminer';
+            btn.textContent = newStatus ? 'Recommencer' : 'Terminer';
         }
     }
 }
@@ -321,12 +322,12 @@ function refreshTaskDisplay(taskId) {
     
     // Mettre à jour le statut
     const statusElement = taskElement.querySelector('.task-status');
-    statusElement.textContent = task.completed ? '✅ Terminée' : '⏳ En attente';
+    statusElement.textContent = task.completed ? 'Terminée' : 'En attente';
     statusElement.className = `task-status ${task.completed ? 'completed' : 'pending'}`;
     
     // Mettre à jour le bouton
     const toggleBtn = taskElement.querySelector('.btn-toggle');
-    toggleBtn.textContent = task.completed ? '✏️ Réouvrir' : '✅ Terminer';
+    toggleBtn.textContent = task.completed ? 'Recommnecer' : '✅ Terminer';
     
     // Mettre à jour la date si disponible
     const dateElement = taskElement.querySelector('.task-date');
@@ -345,7 +346,7 @@ function refreshTaskDisplay(taskId) {
 }
 
 async function deleteTask(taskId) {
-    console.log(`🗑️ Tentative de suppression de la tâche #${taskId}`);
+    console.log(`Tentative de suppression de la tâche #${taskId}`);
     
     // Demander confirmation
     if (!confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')) {
@@ -375,7 +376,7 @@ async function deleteTask(taskId) {
         }
         
         const result = await response.json();
-        console.log('✅ Tâche supprimée:', result);
+        console.log('Tâche supprimée:', result);
         
         // Retirer la tâche du tableau local
         tasks = tasks.filter(t => t.id !== taskId);
@@ -402,14 +403,14 @@ async function deleteTask(taskId) {
         showSuccessMessage(`"${taskTitle}" supprimée avec succès`);
         
     } catch (error) {
-        console.error('❌ Erreur lors de la suppression:', error);
+        console.error('Erreur lors de la suppression:', error);
         showError(`Erreur: ${error.message}`);
         
         // Réactiver le bouton en cas d'erreur
         const btn = document.querySelector(`[onclick="deleteTask(${taskId})"]`);
         if (btn) {
             btn.disabled = false;
-            btn.textContent = '🗑️ Supprimer';
+            btn.textContent = 'Supprimer';
         }
     }
 }
