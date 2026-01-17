@@ -37,17 +37,20 @@ Frontend :
 - Git
 
 2. Cloner le projet
-git clone https://github.com/TON_USERNAME/taskflow.git
-cd taskflow
 
-3. Configuration
-cd bakend
-npm install
+- git clone https://github.com/TON_USERNAME/taskflow.git
+- cd taskflow
+
+4. Configuration
+   
+- cd bakend
+- npm install
 
 NB : vous trouverez la structure de la BD dans le fichier backend/database/init.sql
 
 ## lancer le serveur 
-npm run dev
+
+-npm run dev
 
 ### MIRIMO LUBUTO Samuel (codeur passionné)
-et merci de laisser une étoile 
+-...et merci de laisser une étoile !
