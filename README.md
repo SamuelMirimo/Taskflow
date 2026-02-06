@@ -46,6 +46,18 @@ Frontend :
 - cd bakend
 - npm install
 
+5. créer votre fichier .env
+
+# port d'ecoute du serveur
+PORT=3000
+
+# configuration de la DB
+DB_HOST=
+DB_USER=
+DB_PASSWORD=
+DB_NAME=taskflow_db
+DB_PORT=3306
+
 NB : vous trouverez la structure de la BD dans le fichier backend/database/init.sql
 
 ## lancer le serveur 
