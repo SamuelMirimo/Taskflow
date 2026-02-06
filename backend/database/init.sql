@@ -1,5 +1,8 @@
 -- Ce fichier initialise notre structure de base de données
 
+CREATE DATABASE taskflow_db;
+USE taskflow_db;
+
 CREATE TABLE IF NOT EXISTS tasks (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
