@@ -74,8 +74,9 @@ const createTask = async (req, res) => {
     const { title, description, category } = req.body;
 
     //validation 
-    if (!title || title.trim() === '') {
-        return sendError(res, 400, 'le titre est obligatoire');
+    if (!title || title.trim() === '' || title.trim().length < 2) {
+        console.log('Erreur lors de la creation de la tache');
+        return sendError(res, 400, 'le titre est obligatoire et doit contenir minimum 2 carateres');
     }
 
     try{
